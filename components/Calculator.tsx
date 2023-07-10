@@ -13,7 +13,6 @@ enum Discount {
     BUY_1_GET_1_50_OFF = "Buy 1 Get 1 50% Off",
     BUY_2_GET_1_FREE = "Buy 2 Get 1 Free",
     BUY_2_GET_2_FREE = "Buy 2 Get 2 Free",
-
 };
 
 export default function Calculator() {
@@ -63,9 +62,6 @@ export default function Calculator() {
 
         let prices: number[] = [input_1, input_2, input_3, input_4].map(Number).filter(x => x != 0).sort((a, b) => a - b)
         let total = prices.reduce((a, b) => a + b, 0)
-
-        console.log(prices)
-        console.log(total)
 
         switch (discount) {
             case Discount.BUY_1_GET_1_FREE: {
