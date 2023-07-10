@@ -55,7 +55,7 @@ export default function Calculator() {
     }
 
     function round(value: number, decimals = 2): number {
-        return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+        return Number(Math.round(Number(String(value) + 'e' + String(decimals))) + 'e-' + decimals);
     }
 
     function calculate(e: any) {
