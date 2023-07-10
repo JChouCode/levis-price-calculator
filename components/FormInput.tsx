@@ -20,7 +20,6 @@ export default function FormInput({ input, handleInput, output }: FormInputProps
             <Form.Control
                 type="text"
                 value={output}
-                pattern="^\d*(\.\d{0,2})?$"
                 readOnly
                 disabled
             />

@@ -25,6 +25,7 @@ export default function Calculator() {
     const [output_2, setOutput2] = useState("");
     const [output_3, setOutput3] = useState("");
     const [output_4, setOutput4] = useState("");
+    const [receipt, setReceipt] = useState("");
 
     function handleClear() {
         setInput1("");
@@ -35,6 +36,7 @@ export default function Calculator() {
         setOutput2("");
         setOutput3("");
         setOutput4("");
+        setReceipt("");
     }
 
     function handleInput1Change(event: any) {
@@ -57,6 +59,25 @@ export default function Calculator() {
         return Number(Math.round(Number(String(value) + 'e' + String(decimals))) + 'e-' + decimals);
     }
 
+    function calcDiscount(total: number, new_total: number) {
+        let ratio = new_total / total
+        let output_1 = round(Number(input_1) * ratio)
+        let output_2 = round(Number(input_2) * ratio)
+        let output_3 = round(Number(input_3) * ratio)
+        let output_4 = round(Number(input_4) * ratio)
+        let calc_total = output_1 + output_2 + output_3 + output_4
+        if (calc_total != new_total) { // account for 1 cent error
+            output_1 = round(output_1 + (new_total - calc_total))
+        }
+        setOutput1(String(output_1))
+        setOutput2(String(output_2))
+        setOutput3(String(output_3))
+        setOutput4(String(output_4))
+
+        let percent_off = round((1 - ratio) * 100)
+        setReceipt(`Original Price: $${total}\nDiscounted Price: $${calc_total}\nFinal Discount: ${percent_off}%`)
+    }
+
     function calculate(e: any) {
         e.preventDefault()
 
@@ -70,10 +91,8 @@ export default function Calculator() {
                     return
                 }
                 let new_total = total - prices[0]
-                let ratio = new_total / total
-                setOutput1(String(round(Number(input_1) * ratio)))
-                setOutput2(String(round(Number(input_2) * ratio)))
-                break;
+                calcDiscount(total, new_total)
+                break
             }
             case Discount.BUY_1_GET_1_50_OFF: {
                 if (prices.length < 2) {
@@ -81,10 +100,8 @@ export default function Calculator() {
                     return
                 }
                 let new_total = total - prices[0] * 0.5
-                let ratio = new_total / total
-                setOutput1(String(round(Number(input_1) * ratio)))
-                setOutput2(String(round(Number(input_2) * ratio)))
-                break;
+                calcDiscount(total, new_total)
+                break
             }
             case Discount.BUY_2_GET_1_FREE: {
                 if (prices.length < 3) {
@@ -92,11 +109,8 @@ export default function Calculator() {
                     return
                 }
                 let new_total = total - prices[0]
-                let ratio = new_total / total
-                setOutput1(String(round(Number(input_1) * ratio)))
-                setOutput2(String(round(Number(input_2) * ratio)))
-                setOutput3(String(round(Number(input_3) * ratio)))
-                break;
+                calcDiscount(total, new_total)
+                break
             }
             case Discount.BUY_2_GET_2_FREE: {
                 if (prices.length < 4) {
@@ -104,12 +118,8 @@ export default function Calculator() {
                     return
                 }
                 let new_total = total - prices[0] - prices[1]
-                let ratio = new_total / total
-                setOutput1(String(round(Number(input_1) * ratio)))
-                setOutput2(String(round(Number(input_2) * ratio)))
-                setOutput3(String(round(Number(input_3) * ratio)))
-                setOutput4(String(round(Number(input_4) * ratio)))
-                break;
+                calcDiscount(total, new_total)
+                break
             }
         }
     }
@@ -123,10 +133,10 @@ export default function Calculator() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_1_GET_1_FREE); setInput3(""); setInput4(""); }}>{Discount.BUY_1_GET_1_FREE}</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_1_GET_1_50_OFF); setInput3(""); setInput4(""); }}>{Discount.BUY_1_GET_1_50_OFF}</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_2_GET_1_FREE); setInput4(""); }}>{Discount.BUY_2_GET_1_FREE}</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_2_GET_2_FREE) }}>{Discount.BUY_2_GET_2_FREE}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_1_GET_1_FREE); setInput3(""); setInput4(""); setReceipt(""); }}>{Discount.BUY_1_GET_1_FREE}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_1_GET_1_50_OFF); setInput3(""); setInput4(""); setReceipt(""); }}>{Discount.BUY_1_GET_1_50_OFF}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_2_GET_1_FREE); setInput4(""); setReceipt(""); }}>{Discount.BUY_2_GET_1_FREE}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_2_GET_2_FREE); setReceipt(""); }}>{Discount.BUY_2_GET_2_FREE}</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
 
@@ -146,6 +156,20 @@ export default function Calculator() {
                     </Button>
                 </div>
             </Form>
-        </div>
+
+            {
+                receipt &&
+                < Form className='mt-4 font-mono text-xs'>
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        type="text"
+                        value={receipt}
+                        readOnly
+                        disabled
+                    />
+                </Form>
+            }
+        </div >
     )
 }
