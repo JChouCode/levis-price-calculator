@@ -127,9 +127,9 @@ export default function Calculator() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_1_GET_1_FREE) }}>{Discount.BUY_1_GET_1_FREE}</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_1_GET_1_50_OFF) }}>{Discount.BUY_1_GET_1_50_OFF}</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_2_GET_1_FREE) }}>{Discount.BUY_2_GET_1_FREE}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_1_GET_1_FREE); setInput3(""); setInput4(""); }}>{Discount.BUY_1_GET_1_FREE}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_1_GET_1_50_OFF); setInput3(""); setInput4(""); }}>{Discount.BUY_1_GET_1_50_OFF}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_2_GET_1_FREE); setInput4(""); }}>{Discount.BUY_2_GET_1_FREE}</Dropdown.Item>
                     <Dropdown.Item onClick={() => { setDiscount(Discount.BUY_2_GET_2_FREE) }}>{Discount.BUY_2_GET_2_FREE}</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
