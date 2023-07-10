@@ -1,11 +1,18 @@
 import Form from 'react-bootstrap/Form'
+import { SetStateAction, Dispatch } from "react";
 
-export default function FormInput({ input, setInput, output, label }) {
+interface FormInputProps {
+    input: string
+    handleInput: (event: any) => void
+    output: string
+}
+
+export default function FormInput({ input, handleInput, output }: FormInputProps) {
     return (
         <div className='flex flex-row justify-between items-center mt-3'>
             <Form.Control
                 type="number"
-                onChange={setInput}
+                onChange={handleInput}
                 value={input}
                 placeholder="0.00"
             />

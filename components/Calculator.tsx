@@ -135,12 +135,12 @@ export default function Calculator() {
             </Dropdown>
 
             <Form onSubmit={calculate}>
-                <FormInput input={input_1} setInput={handleInput1Change} output={output_1} label="Price of Item #1" />
-                <FormInput input={input_2} setInput={handleInput2Change} output={output_2} label="Price of Item #2" />
+                <FormInput input={input_1} handleInput={handleInput1Change} output={output_1} />
+                <FormInput input={input_2} handleInput={handleInput2Change} output={output_2} />
                 {(discount == Discount.BUY_2_GET_1_FREE || discount == Discount.BUY_2_GET_2_FREE) &&
-                    <FormInput input={input_3} setInput={handleInput3Change} output={output_3} label="Price of Item #3" />}
+                    <FormInput input={input_3} handleInput={handleInput3Change} output={output_3} />}
                 {(discount == Discount.BUY_2_GET_2_FREE) &&
-                    <FormInput input={input_4} setInput={handleInput4Change} output={output_4} label="Price of Item #4" />}
+                    <FormInput input={input_4} handleInput={handleInput4Change} output={output_4} />}
                 <div className="flex flex-row justify-between">
                     <Button type="submit" className="mt-3">
                         Calculate
